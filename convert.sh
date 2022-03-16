@@ -27,23 +27,32 @@ id3tag_convert () {
 for i in "$sourceFolder"/*mp3
 do
 	((trackCount=trackCount+1))
-	read -p "Song title for track $i: " trackName
+	read -rep $'\nSong title for track '"$i: "$' \n'  trackName
 	id3v2 -A "$albumName" -a "$artistName" -t "$trackName" -y "$releaseYear" -T "$trackCount"\/"$trackNum" "$i"
 done
 }
 
 #Move wavs to cleanFolder
 clean_folder () {
-mkdir -p "$cleanFolder"
-mv "$sourceFolder"/*wav "$cleanFolder"
-#Remove cleanFolder?
-read -p "Do you want to delete the original wavs (type y for yes)?" toBeOrNot
-if [ "toBeOrNot" = "y" ]
-	then 
-		echo "Deleteing wavs..."
-		rm -rf "$cleanFolder"
-	else echo "Then we're done"
-fi
+while true; do
+	mkdir -p "$cleanFolder"
+	mv "$sourceFolder"/*wav "$cleanFolder"
+	#Remove cleanFolder?
+	read -rep $'\nDo you want to delete the original wavs (y/n)? \n' toBeOrNot
+	case $toBeOrNot in
+		[yY] | [yY][Ee][Ss] )
+				echo "Deleting original wav files."
+				rm -rf "$cleanFolder"
+				break
+	    	;;
+		[nN] | [n|N][O|o] )
+				echo "Original wav files are in $cleanFolder";
+				exit 1
+	    	;;
+		*) echo "Invalid input" 2>/dev/null
+	      ;;
+	esac
+done
 }
 
 #Run functions run!
