@@ -41,16 +41,16 @@ while true; do
 	read -rep $'\nDo you want to delete the original wavs (y/n)? \n' toBeOrNot
 	case $toBeOrNot in
 		[yY] | [yY][Ee][Ss] )
-				echo "Deleting original wav files."
-				rm -rf "$cleanFolder"
-				break
-	    	;;
+			echo "Deleting original wav files."
+			rm -rf "$cleanFolder"
+			break
+	    		;;
 		[nN] | [n|N][O|o] )
-				echo "Original wav files are in $cleanFolder";
-				exit 1
-	    	;;
+			echo "Original wav files are in $cleanFolder";
+			exit 1
+	    		;;
 		*) echo "Invalid input" 2>/dev/null
-	      ;;
+	      		;;
 	esac
 done
 }
