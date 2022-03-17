@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#Usage check
+if [ $# -eq 0 ]
+	then echo 'Usage: ./convert.sh $pathToFolderWithWavs'
+	exit 1
+fi
+
 ###REQUIREMENTS:
 #install id3v2 ffmpeg or I won't run
 if ! hash id3v2 2>/dev/null; then echo "id3v2 command not found!"; exit 1; fi
